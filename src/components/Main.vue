@@ -41,11 +41,8 @@
             <li><i class="iconfont icon-information"></i></li>
           </ul>
         </div>
-        <div class="body-content-box">
-          <div class="content">
-            内容
-          </div>
-        </div>
+        <UserContent></UserContent>
+
       </div>
     </div>
   </div>
@@ -53,8 +50,13 @@
 
 <script>
 import {reactive} from "vue";
+import UserContent from "@/pages/UserContent";
 export default {
   name: 'HelloWorld',
+  components: {
+    UserContent
+  },
+
   setup(){
     const data = reactive(
         {
@@ -161,11 +163,13 @@ export default {
   box-shadow: 0 0 10px 2px rgba(169, 169, 169, 0.4);
   overflow: hidden;
 }
+
 .user-headPortrait img{
   margin-top: 15%;
   height: 70%;
   width: 70%;
 }
+
 .user-name{
   margin-top: 16px;
   font-size: 20px;
@@ -265,23 +269,5 @@ export default {
   text-indent: 4px;
   font-size: 16px;
   font-weight: bold;
-}
-
-/*内容页面*/
-.body-content-box{
-  position: relative;
-  height: calc(100% - 80px);
-  width: 100%;
-  background: #f6f8fc;
-}
-
-.content{
-  position: absolute;
-  left: 24px;
-  top:24px;
-  height: calc(100% - 48px);
-  width: calc(100% - 48px);
-  background: white;
-  border-radius: 4px;
 }
 </style>
