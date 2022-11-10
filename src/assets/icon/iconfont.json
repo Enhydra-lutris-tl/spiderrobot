@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1093",
+      "name": "电池",
+      "font_class": "dianchi",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "1898571",
+      "name": "bluetooth",
+      "font_class": "bluetooth",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "11372771",
+      "name": "时间",
+      "font_class": "shijian",
+      "unicode": "e8c5",
+      "unicode_decimal": 59589
+    },
+    {
+      "icon_id": "11882844",
+      "name": "bg-wifi",
+      "font_class": "bg-wifi",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "27536800",
+      "name": "屏幕尺寸",
+      "font_class": "aspect-ratio-fill",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "1278388",
       "name": "weixing",
       "font_class": "weixing",

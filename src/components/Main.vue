@@ -2,22 +2,29 @@
   <div class="main-box">
     <div class="body-box">
       <div class="body-left-box">
+<!--        用户信息-->
         <div class="user-message">
-          <div class="user-headPortrait"><img :src="data.headSrc" alt="????"></div>
-          <div class="user-name">Enhydra lutris</div>
-          <ul class="user-contact">
+          <div class="user-headPortrait" ref="headPortrait">
+            <img :src="data.headSrc" alt="????" @mouseover="portraitOver" @mouseout="portraitOut">
+          </div>
+          <div class="user-name" v-show="data.messageShow">Enhydra lutris</div>
+          <ul class="user-contact" v-show="data.messageShow">
             <li><i class="iconfont icon-QQ"></i></li>
             <li><i class="iconfont icon-weixing"></i></li>
             <li><i class="iconfont icon-weibo-fill"></i></li>
             <li><i class="iconfont icon-bilibili-fill"></i></li>
           </ul>
         </div>
+
+
         <ul class="menu-color-list">
           <li><i class="iconfont icon-icon-action-user_24px" style="color: #519df8"></i><span>用户信息</span></li>
           <li><i class="iconfont icon-configure" style="color: #6adcc6"></i><span>工作台</span></li>
           <li><i class="iconfont icon-icon-action-bookmark_24px" style="color: #eeac4c"></i><span>常用功能</span></li>
           <li><i class="iconfont icon-stickynote" style="color: #5c72f6"></i><span>待办</span></li>
         </ul>
+
+<!--        单色菜单-->
         <ul class="menu-list">
           <li><i class="iconfont icon-vuesax-bold-grid-6"></i><span>看板</span></li>
           <li><i class="iconfont icon-icon-toggle-radio_button_checked_24px"></i><span>实时操作</span></li>
@@ -49,7 +56,7 @@
 </template>
 
 <script>
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import UserContent from "@/pages/UserContent";
 export default {
   name: 'HelloWorld',
@@ -58,13 +65,35 @@ export default {
   },
 
   setup(){
+    const headPortrait = ref()
     const data = reactive(
         {
-          headSrc:require('@/assets/logo.png')
+          headSrc:require('@/assets/logo.png'),
+          messageShow:1
         }
     )
+
+    function portraitOver(){
+      headPortrait.value.style.width = '120px'
+      headPortrait.value.style.height = '120px'
+      headPortrait.value.style.marginTop = '48px'
+      data.messageShow=0
+    }
+
+    function portraitOut(){
+      headPortrait.value.style.width = '80px'
+      headPortrait.value.style.height = '80px'
+      headPortrait.value.style.marginTop = '36px'
+      setTimeout(()=>{
+        data.messageShow=1
+      },500)
+
+    }
     return{
-      data
+      headPortrait,
+      data,
+      portraitOver,
+      portraitOut
     }
   }
 }
@@ -79,7 +108,7 @@ export default {
   display: flex;
   width: 1440px;
   height: 1080px;
-  border-radius: 32px;
+  border-radius: 24px;
   overflow: hidden;
 }
 
@@ -162,6 +191,7 @@ export default {
   background:  #f6f8fc;
   box-shadow: 0 0 10px 2px rgba(169, 169, 169, 0.4);
   overflow: hidden;
+  transition: 0.5s;
 }
 
 .user-headPortrait img{
@@ -245,7 +275,7 @@ export default {
 }
 .menu-list li span{
   display: block;
-  text-indent: 4px;
+  text-indent: 8px;
 }
 .menu-list li:hover{
   background: #f6f8fc;
