@@ -211,12 +211,28 @@ export default {
   display: flex;
   list-style: none;
   justify-content: space-between;
+  height: 30px;
   padding: 16px 28px;
 }
+.user-contact li{
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.user-contact li:hover{
+   background-image: radial-gradient(circle, #5ffbf1, #7dfcf4, #95fdf7, #abfdf9, #bffefb, #cbfefd, #d7fefe, #e2feff, #ebfeff, #f4fdff, #fbfdff, #ffffff);
+  box-shadow: 0 0 20px 2px rgba(85, 222, 195, 0.8);
+}
+
 .user-contact li i{
   font-size: 24px;
   color: rgba(93, 88, 88, 0.76);
 }
+
 
 /*彩色菜单*/
 .menu-color-list{
@@ -234,6 +250,7 @@ export default {
   text-indent: 40px;
   line-height: 64px;
   height: 64px;
+  cursor:pointer;
 
 }
 
@@ -268,6 +285,7 @@ export default {
   line-height: 56px;
   height: 56px;
   color: #bcb9c7;
+  cursor: pointer;
 }
 
 .menu-list li i{
