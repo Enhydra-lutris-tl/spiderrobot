@@ -18,8 +18,14 @@
 
 
         <ul class="menu-color-list">
-          <li><i class="iconfont icon-icon-action-user_24px" style="color: #519df8"></i><span>用户信息</span></li>
-          <li><i class="iconfont icon-configure" style="color: #6adcc6"></i><span>工作台</span></li>
+          <li @click="pageShow('UserContent')">
+            <i class="iconfont icon-icon-action-user_24px" style="color: #519df8"></i>
+            <span>用户信息</span>
+          </li>
+          <li @click="pageShow('WorkBench')">
+            <i class="iconfont icon-configure" style="color: #6adcc6"></i>
+            <span>工作台</span>
+          </li>
           <li><i class="iconfont icon-icon-action-bookmark_24px" style="color: #eeac4c"></i><span>常用功能</span></li>
           <li><i class="iconfont icon-stickynote" style="color: #5c72f6"></i><span>待办</span></li>
         </ul>
@@ -48,7 +54,13 @@
             <li><i class="iconfont icon-information"></i></li>
           </ul>
         </div>
-        <UserContent></UserContent>
+        <div class="router-box">
+          <router-view v-slot="{Component}">
+            <transition name="fade">
+              <component :is="Component"/>
+            </transition>
+          </router-view>
+        </div>
 
       </div>
     </div>
@@ -57,14 +69,16 @@
 
 <script>
 import {reactive,ref} from "vue";
-import UserContent from "@/pages/UserContent";
+// import UserContent from "@/pages/UserContent";
+import {useRouter} from 'vue-router';
 export default {
   name: 'HelloWorld',
   components: {
-    UserContent
+    // UserContent
   },
 
   setup(){
+    const router = useRouter()
     const headPortrait = ref()
     const data = reactive(
         {
@@ -89,11 +103,19 @@ export default {
       },500)
 
     }
+    function pageShow(index){
+      if (index==='UserContent'){
+          router.push('/UserContent')
+      }else {
+        router.push('/WorkBench')
+      }
+    }
     return{
       headPortrait,
       data,
       portraitOver,
-      portraitOut
+      portraitOut,
+      pageShow
     }
   }
 }
@@ -317,5 +339,34 @@ export default {
   text-indent: 4px;
   font-size: 16px;
   font-weight: bold;
+}
+
+.router-box{
+  height: calc(100% - 80px);
+  width: 100%;
+  background: #f6f8fc;
+  overflow: hidden;
+}
+/*路由过渡效果*/
+.fade-enter-active {
+  animation: ceshi 0.5s;
+}
+
+.fade-leave-active {
+  animation: ceshi1 0.5s reverse;
+}
+
+/*.fade-enter-from,*/
+/*.fade-leave-to {*/
+/*  transform: translateX(20px);*/
+/*  opacity: 0;*/
+/*}*/
+@keyframes ceshi1 {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 </style>
