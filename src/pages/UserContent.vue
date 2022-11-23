@@ -56,6 +56,10 @@
         </div>
         <div class="weather-img"><img :src="userDate.weatherImgSrc" alt=""></div>
       </div>
+
+
+
+<!--      右侧栏目-->
       <div class="simple-todo-box">
         <div class="calendar-box">
           <div class="calendar-title">
@@ -78,7 +82,7 @@
             <div>+</div>
           </div>
           <ul class="todo-lists">
-            <li v-for="(i,index) in 5" :key="index">
+            <li v-for="(i,index) in 8" :key="index">
               <input type="checkbox">
               <span class=todo-list-text>待办事项</span>
               <div class="todo-list-more">
@@ -202,14 +206,14 @@ export default {
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
-  padding-top: 37px;
-  height: 200px;
+  padding-top: 16px;
+  height: 160px;
   box-shadow: 0 0 10px 10px rgba(188, 185, 199, 0.1);
   background-image: linear-gradient(to right bottom, #ffffff, #f6fbff, #e2faff, #c8faff, #affbff, #aafbfb, #a6fcf5, #a3fcef, #abfdf0, #b3fef1, #bbfef2, #c2fff3);
 }
 
 .user-name {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: bold;
   text-align: left;
   margin-left: 37px;
@@ -242,26 +246,26 @@ export default {
 }
 
 .rb-message-img {
-  height: 60px;
-  width: 60px;
+  height: 40px;
+  width: 40px;
   background: #bcb9c7;
   border-radius: 50%;
   margin: 8px 4px 8px 24px;
 }
 
 .rb-name {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  height: 60px;
-  line-height: 60px;
+  height: 40px;
+  line-height: 40px;
   margin: 8px 4px 8px 24px;
 }
 
 .rb-message {
   box-sizing: border-box;
-  padding: 24px 0;
+  padding: 24px 0 12px 0;
   width: 100%;
-  height: 360px;
+  height: 304px;
   margin-top: 24px;
   background: white;
   box-shadow: 0 0 10px 10px rgba(188, 185, 199, 0.1);
@@ -269,9 +273,9 @@ export default {
 }
 
 .rb-message ul {
-  width: calc(100% - 74px);
+  width: calc(100% - 48px);
   list-style: none;
-  margin-left: 37px;
+  margin-left: 24px;
   border: 1px solid #bcb9c7;
   border-radius: 4px;
 }
@@ -295,19 +299,17 @@ export default {
   text-align: right;
   padding: 8px 24px 8px 12px;
   border-right: 1px solid #bcb9c7;
+  font-size: 14px;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-}
-
-.rb-message ul li .message-title i {
-  font-size: 24px;
 }
 
 .rb-message ul li .message-text {
   box-sizing: border-box;
   width: 65%;
   text-align: left;
+  font-size: 14px;
   padding: 8px 24px 8px 24px;
 }
 
@@ -317,7 +319,7 @@ export default {
   height: 20px;
   margin-top: 8px;
   color: #bcb9c7;
-  font-size: 20px;
+  font-size: 14px;
   text-align: right;
   padding-right: 37px;
   cursor: pointer;
@@ -330,21 +332,18 @@ export default {
 
 
 .weather-img {
-  height: 120px;
-  width: 120px;
+  height: 100px;
+  width: 100px;
   position: absolute;
-  right: 37px;
-  top: 37px;
+  right: 24px;
+  top: 24px;
   border-radius: 16px;
   overflow: hidden;
 }
 
 .weather-img img {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  height: 140px;
-  width: 140px;
+  height: 100%;
+  width: 100%;
 }
 
 /*地图相关*/
@@ -354,18 +353,15 @@ export default {
   background: white;
   margin-top: 24px;
   border-radius: 8px;
-  height: calc(100% - 608px);
+  height: calc(100% - 512px);
 }
 
-#container {
-  margin: 24px 37px;
-  border-radius: 4px;
-}
 
+/*右侧栏目*/
 .simple-todo-box {
   margin-left: 37px;
   height: 100%;
-  width: 466px;
+  /*width: 466px;*/
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 10px 10px rgba(188, 185, 199, 0.1)
@@ -373,9 +369,9 @@ export default {
 
 .calendar-title {
   display: flex;
-  height: 37px;
+  height: 24px;
   width: calc(100% - 74px);
-  margin-left: 37px;
+  margin-left: 24px;
   margin-top: 24px;
 }
 
@@ -390,24 +386,24 @@ export default {
 }
 
 .calendar-title span:last-child {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   text-indent: 8px;
-  line-height: 37px;
+  line-height: 24px;
 }
 
 .calendar-header {
   display: flex;
   justify-content: space-between;
   list-style: none;
-  height: 37px;
-  width: 371px;
-  margin-left: 37px;
+  height: 24px;
+  width: calc(100% - 48px);
+  margin-left: 24px;
   margin-top: 24px;
 }
 
 .calendar-header li {
-  line-height: 37px;
+  line-height: 24px;
   width: 37px;
   font-weight: bold;
   margin: 0 8px;
@@ -419,16 +415,16 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   list-style: none;
-  width: 371px;
-  margin-left: 37px;
+  width: calc(100% - 48px);
+  margin-left: 24px;
   margin-top: 12px;
   border-top: #bcb9c7 2px solid;
   padding-top: 12px;
 }
 
 .calendar-body li {
-  line-height: 37px;
-  width: 37px;
+  line-height: 34px;
+  width: 34px;
   margin: 8px;
   border-radius: 50%;
   background: #6adcc6;
@@ -445,33 +441,35 @@ export default {
 }
 
 /*待办样式*/
+.todo-lists-box {
+  border-top: 2px rgba(188, 185, 199, 0.2) dashed;
+  margin-top: 12px;
+  width: 100%;
+}
+
 .todo-lists {
+  width: calc(100% - 48px);
+  height: 246px;
   list-style: none;
   text-align: left;
-  margin-left: 37px;
+  margin-left: 24px;
   margin-top: 24px;
-  width: 371px;
   border-top: 1px solid #bcb9c7;
+  overflow: auto;
 }
 
 .todo-lists li {
   border-bottom: 1px solid #bcb9c7;
-  height: 74px;
-  line-height: 74px;
-
-}
-
-.todo-lists-box {
-  border-top: 4px rgba(188, 185, 199, 0.2) dashed;
-  margin-top: 24px;
+  height: 48px;
+  line-height: 48px;
 }
 
 .lists-title {
   position: relative;
   display: flex;
-  height: 37px;
-  width: calc(100% - 74px);
-  margin-left: 37px;
+  height: 24px;
+  width: calc(100% - 48px);
+  margin-left: 24px;
   margin-top: 24px;
 }
 
@@ -486,20 +484,20 @@ export default {
 }
 
 .todo-title-name {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   text-indent: 8px;
-  line-height: 37px;
+  line-height: 24px;
 }
 
 .lists-title div {
   position: absolute;
-  right: 24px;
+  right: 0;
   font-size: 24px;
   font-weight: bold;
-  height: 30px;
-  width: 30px;
-  line-height: 30px;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
   border-radius: 50%;
   background: #5c72f6;
   color: white;
@@ -520,25 +518,27 @@ export default {
 }
 
 .todo-lists input {
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
   /*flex: 1;*/
 }
 
 .todo-list-text {
   flex: 2;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   margin-left: 8px;
 }
 
 .todo-list-more {
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  font-size: 14px;
+  margin-right: 8px;
 }
 
 .todo-list-more span {
-  margin: 0 8px;
+  margin: 0 4px;
 }
 
 .todo-list-more span:first-child {

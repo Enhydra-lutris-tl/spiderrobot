@@ -1,5 +1,5 @@
 <template>
-  <div id="container" style="height: calc(100% - 48px);width:calc(100% - 74px);"></div>
+  <div id="container" ></div>
 </template>
 
 <script>
@@ -92,8 +92,10 @@ export default {
 
 <style scoped>
 #container {
-  margin: 24px 37px;
+  margin: 24px;
   border-radius: 4px;
   z-index: 4;
+  height: calc(100% - 48px);
+  width:calc(100% - 48px);
 }
 </style>

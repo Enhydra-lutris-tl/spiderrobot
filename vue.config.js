@@ -1,12 +1,21 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true,
+    lintOnSave: undefined,
+    publicPath: './',
+    outputDir: undefined,
+    assetsDir: undefined,
+    runtimeCompiler: undefined,
+    productionSourceMap: undefined,
+    parallel: undefined,
+    css: undefined,
+
+    transpileDependencies: true,
     configureWebpack:{
       externals:{
           AMap:'AMap'
       }
     },
-  devServer:{
+    devServer:{
       proxy:{
           '/dingzhi':{
             target:'http://d1.weather.com.cn/dingzhi/',
@@ -20,5 +29,5 @@ module.exports = defineConfig({
               }
           }
       }
-  }
+    }
 })

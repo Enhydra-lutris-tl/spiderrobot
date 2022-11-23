@@ -1,5 +1,9 @@
 const routes = [
     {
+        path: '/',
+        redirect:'/UserContent',
+    },
+    {
         name: 'UserContent',
         path: '/UserContent',
         component: () => import('@/pages/UserContent')

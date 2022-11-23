@@ -1,6 +1,7 @@
 <template>
   <div class="main-box">
     <div class="body-box">
+      <div class="mouse-command"></div>
       <div class="body-left-box">
 <!--        用户信息-->
         <div class="user-message">
@@ -41,7 +42,9 @@
       </div>
 
       <div class="body-right-box">
-        <div class="header-box">
+        <div
+            class="header-box"
+        >
           <div class="input-box">
             <div><i class="iconfont icon-vuesax-bold-search-status"></i></div>
             <input type="text" placeholder="???">
@@ -78,11 +81,12 @@ export default {
   },
 
   setup(){
+
     const router = useRouter()
     const headPortrait = ref()
     const data = reactive(
         {
-          headSrc:require('@/assets/logo.png'),
+          headSrc:require('@/assets/img/user.jpg'),
           messageShow:1
         }
     )
@@ -110,6 +114,7 @@ export default {
         router.push('/WorkBench')
       }
     }
+
     return{
       headPortrait,
       data,
@@ -124,22 +129,22 @@ export default {
 <style scoped>
 .body-box{
   position: relative;
-  margin-left: calc(50% - 720px);
-  margin-top: calc(50vh - 540px);
+  margin-left: calc(50% - 580px);
+  margin-top: calc(50vh - 435px);
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.12);
   display: flex;
-  width: 1440px;
-  height: 1080px;
+  width: 1160px;
+  height: 870px;
   border-radius: 24px;
   overflow: hidden;
 }
 
 .body-left-box{
-  width: 240px;
+  width: 194px;
   background: #ffffff;
 }
 .body-right-box{
-  width: 1200px;
+  width: 966px;
   background: #f6f8fc;
 }
 .header-box{
@@ -148,7 +153,7 @@ export default {
   align-items: center;
   padding: 8px 24px;
   box-sizing: border-box;
-  height: 80px;
+  height: 74px;
   width: 100%;
   background: #ffffff;
   border-left: #f6f8fc solid 2px;
@@ -164,7 +169,7 @@ export default {
   width: 320px;
   border:none;
   background: #f6f8fc;
-  border-radius: 4px;
+  border-radius: 8px;
   text-indent: 40px;
   font-size: 16px;
 }
@@ -190,6 +195,7 @@ export default {
   height: 40px;
   width: 40px;
   line-height: 40px;
+  cursor:pointer;
 }
 .header-box ul li i{
   font-size: 24px;
@@ -217,14 +223,14 @@ export default {
 }
 
 .user-headPortrait img{
-  margin-top: 15%;
-  height: 70%;
-  width: 70%;
+  /*margin-top: 15%;*/
+  height: 100%;
+  width: 100%;
 }
 
 .user-name{
   margin-top: 16px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 }
 .user-contact{
@@ -251,40 +257,38 @@ export default {
 }
 
 .user-contact li i{
-  font-size: 24px;
+  font-size: 20px;
   color: rgba(93, 88, 88, 0.76);
 }
 
 
 /*彩色菜单*/
 .menu-color-list{
-  padding-top: 16px;
+  padding: 16px 0;
   box-sizing: border-box;
   width: 100%;
   border-top: 4px solid #f6f8fc;
   list-style: none;
-  height: 320px;
 }
 .menu-color-list li{
   display: flex;
   justify-content: flex-start;
   text-align: left;
   text-indent: 40px;
-  line-height: 64px;
-  height: 64px;
+  line-height: 56px;
+  height: 56px;
   cursor:pointer;
-
 }
 
 .menu-color-list li i{
-  font-size: 28px;
+  font-size: 24px;
 }
 .menu-color-list li span{
   display: block;
   text-indent: 4px;
   color: #303753;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
 }
 .menu-color-list li:hover{
   background: #f6f8fc;
@@ -297,25 +301,25 @@ export default {
   width: 100%;
   border-top: 2px solid #f6f8fc;
   list-style: none;
-  height: 400px;
 }
 .menu-list li{
   display: flex;
   justify-content: flex-start;
   text-align: left;
   text-indent: 40px;
-  line-height: 56px;
-  height: 56px;
+  line-height: 40px;
+  height: 40px;
   color: #bcb9c7;
   cursor: pointer;
 }
 
 .menu-list li i{
-  font-size: 24px;
+  font-size: 20px;
 }
 .menu-list li span{
   display: block;
   text-indent: 8px;
+  font-size: 14px;
 }
 .menu-list li:hover{
   background: #f6f8fc;
@@ -368,5 +372,15 @@ export default {
   100%{
     opacity: 1;
   }
+}
+
+/*鼠标可拖拽区域*/
+.mouse-command{
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 300px;
+  height: 100px;
 }
 </style>
