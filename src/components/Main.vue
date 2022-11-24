@@ -3,60 +3,17 @@
     <div class="body-box">
       <div class="mouse-command"></div>
       <div class="body-left-box">
-<!--        用户信息-->
-        <div class="user-message">
-          <div class="user-headPortrait" ref="headPortrait">
-            <img :src="data.headSrc" alt="????" @mouseover="portraitOver" @mouseout="portraitOut">
-          </div>
-          <div class="user-name" v-show="data.messageShow">Enhydra lutris</div>
-          <ul class="user-contact" v-show="data.messageShow">
-            <li><i class="iconfont icon-QQ"></i></li>
-            <li><i class="iconfont icon-weixing"></i></li>
-            <li><i class="iconfont icon-weibo-fill"></i></li>
-            <li><i class="iconfont icon-bilibili-fill"></i></li>
-          </ul>
-        </div>
+      <UserMassage/>
 
+        <ColorMenu/>
 
-        <ul class="menu-color-list">
-          <li @click="pageShow('UserContent')">
-            <i class="iconfont icon-icon-action-user_24px" style="color: #519df8"></i>
-            <span>用户信息</span>
-          </li>
-          <li @click="pageShow('WorkBench')">
-            <i class="iconfont icon-configure" style="color: #6adcc6"></i>
-            <span>工作台</span>
-          </li>
-          <li><i class="iconfont icon-icon-action-bookmark_24px" style="color: #eeac4c"></i><span>常用功能</span></li>
-          <li><i class="iconfont icon-stickynote" style="color: #5c72f6"></i><span>待办</span></li>
-        </ul>
-
-<!--        单色菜单-->
-        <ul class="menu-list">
-          <li><i class="iconfont icon-vuesax-bold-grid-6"></i><span>看板</span></li>
-          <li><i class="iconfont icon-icon-toggle-radio_button_checked_24px"></i><span>实时操作</span></li>
-          <li><i class="iconfont icon-resources"></i><span>资产管理</span></li>
-          <li><i class="iconfont icon-icon-action-chartbar_24px"></i><span>数据</span></li>
-        </ul>
+        <PMenu/>
         <div class="setting"><i class="iconfont icon-bold-setting-2"></i><span>设置</span></div>
       </div>
 
       <div class="body-right-box">
-        <div
-            class="header-box"
-        >
-          <div class="input-box">
-            <div><i class="iconfont icon-vuesax-bold-search-status"></i></div>
-            <input type="text" placeholder="???">
-          </div>
+        <HeaderBox/>
 
-          <ul>
-            <li><i class="iconfont icon-bold-notification"></i></li>
-            <li><i class="iconfont icon-icon-action-globle_24px"></i></li>
-            <li><i class="iconfont icon-question"></i></li>
-            <li><i class="iconfont icon-information"></i></li>
-          </ul>
-        </div>
         <div class="router-box">
           <router-view v-slot="{Component}">
             <transition name="fade">
@@ -71,57 +28,22 @@
 </template>
 
 <script>
-import {reactive,ref} from "vue";
-// import UserContent from "@/pages/UserContent";
-import {useRouter} from 'vue-router';
+// import {reactive,ref} from "vue";
+import UserMassage from "@/components/UserMassage";
+import ColorMenu from "@/components/ColorMenu";
+import PMenu from "@/components/PMenu";
+import HeaderBox from "@/components/HeaderBox";
 export default {
   name: 'HelloWorld',
   components: {
-    // UserContent
+    PMenu,
+    ColorMenu,
+    UserMassage,
+    HeaderBox
   },
 
   setup(){
 
-    const router = useRouter()
-    const headPortrait = ref()
-    const data = reactive(
-        {
-          headSrc:require('@/assets/img/user.jpg'),
-          messageShow:1
-        }
-    )
-
-    function portraitOver(){
-      headPortrait.value.style.width = '120px'
-      headPortrait.value.style.height = '120px'
-      headPortrait.value.style.marginTop = '48px'
-      data.messageShow=0
-    }
-
-    function portraitOut(){
-      headPortrait.value.style.width = '80px'
-      headPortrait.value.style.height = '80px'
-      headPortrait.value.style.marginTop = '36px'
-      setTimeout(()=>{
-        data.messageShow=1
-      },500)
-
-    }
-    function pageShow(index){
-      if (index==='UserContent'){
-          router.push('/UserContent')
-      }else {
-        router.push('/WorkBench')
-      }
-    }
-
-    return{
-      headPortrait,
-      data,
-      portraitOver,
-      portraitOut,
-      pageShow
-    }
   }
 }
 </script>
@@ -135,7 +57,6 @@ export default {
   display: flex;
   width: 1160px;
   height: 870px;
-  border-radius: 24px;
   overflow: hidden;
 }
 
@@ -147,184 +68,8 @@ export default {
   width: 966px;
   background: #f6f8fc;
 }
-.header-box{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 24px;
-  box-sizing: border-box;
-  height: 74px;
-  width: 100%;
-  background: #ffffff;
-  border-left: #f6f8fc solid 2px;
-  color: black;
-}
 
-/*输入框*/
-.input-box{
-  position: relative;
-}
-.header-box input{
-  height: 40px;
-  width: 320px;
-  border:none;
-  background: #f6f8fc;
-  border-radius: 8px;
-  text-indent: 40px;
-  font-size: 16px;
-}
-.input-box div{
-  position: absolute;
-  height: 40px;
-  line-height: 40px;
-  width: 40px;
-}
-.input-box div i{
-  font-size: 24px;
-  color: #bcb9c7;
-}
-
-/*头部右侧菜单按钮*/
-.header-box ul{
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  width: 200px;
-}
-.header-box ul li{
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
-  cursor:pointer;
-}
-.header-box ul li i{
-  font-size: 24px;
-  color: #bcb9c7;
-}
-
-
-/*用户信息*/
-.user-message{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 220px;
-}
-.user-headPortrait{
-  margin-top: 32px;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  background:  #f6f8fc;
-  box-shadow: 0 0 10px 2px rgba(169, 169, 169, 0.4);
-  overflow: hidden;
-  transition: 0.5s;
-}
-
-.user-headPortrait img{
-  /*margin-top: 15%;*/
-  height: 100%;
-  width: 100%;
-}
-
-.user-name{
-  margin-top: 16px;
-  font-size: 18px;
-  font-weight: bold;
-}
-.user-contact{
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  list-style: none;
-  justify-content: space-between;
-  height: 30px;
-  padding: 16px 28px;
-}
-.user-contact li{
-  height: 30px;
-  width: 30px;
-  line-height: 30px;
-  border-radius: 50%;
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.user-contact li:hover{
-   background-image: radial-gradient(circle, #5ffbf1, #7dfcf4, #95fdf7, #abfdf9, #bffefb, #cbfefd, #d7fefe, #e2feff, #ebfeff, #f4fdff, #fbfdff, #ffffff);
-  box-shadow: 0 0 20px 2px rgba(85, 222, 195, 0.8);
-}
-
-.user-contact li i{
-  font-size: 20px;
-  color: rgba(93, 88, 88, 0.76);
-}
-
-
-/*彩色菜单*/
-.menu-color-list{
-  padding: 16px 0;
-  box-sizing: border-box;
-  width: 100%;
-  border-top: 4px solid #f6f8fc;
-  list-style: none;
-}
-.menu-color-list li{
-  display: flex;
-  justify-content: flex-start;
-  text-align: left;
-  text-indent: 40px;
-  line-height: 56px;
-  height: 56px;
-  cursor:pointer;
-}
-
-.menu-color-list li i{
-  font-size: 24px;
-}
-.menu-color-list li span{
-  display: block;
-  text-indent: 4px;
-  color: #303753;
-  font-weight: bold;
-  font-size: 18px;
-}
-.menu-color-list li:hover{
-  background: #f6f8fc;
-}
-
-/*菜单*/
-.menu-list{
-  padding-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
-  border-top: 2px solid #f6f8fc;
-  list-style: none;
-}
-.menu-list li{
-  display: flex;
-  justify-content: flex-start;
-  text-align: left;
-  text-indent: 40px;
-  line-height: 40px;
-  height: 40px;
-  color: #bcb9c7;
-  cursor: pointer;
-}
-
-.menu-list li i{
-  font-size: 20px;
-}
-.menu-list li span{
-  display: block;
-  text-indent: 8px;
-  font-size: 14px;
-}
-.menu-list li:hover{
-  background: #f6f8fc;
-  color: #303753;
-}
+/*设置按钮*/
 .setting{
   display: flex;
   position: absolute;
@@ -332,6 +77,7 @@ export default {
   left: 40px;
   height: 56px;
   line-height: 56px;
+  cursor: pointer;
 }
 .setting i{
   font-size: 20px;
@@ -351,6 +97,7 @@ export default {
   background: #f6f8fc;
   overflow: hidden;
 }
+
 /*路由过渡效果*/
 .fade-enter-active {
   animation: ceshi 0.5s;
@@ -376,11 +123,11 @@ export default {
 
 /*鼠标可拖拽区域*/
 .mouse-command{
-  background: black;
+  -webkit-app-region: drag;
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 300px;
-  height: 100px;
+  left:calc(50% - 37px);
+  width: 375px;
+  height: 74px;
 }
 </style>

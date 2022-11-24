@@ -13,7 +13,17 @@ const routes = [
         path: '/WorkBench',
         component: () => import('@/pages/WorkBench')
     },
+    {
+        name: 'BigMap',
+        path: '/BigMap',
+        component: () => import('@/pages/BigMap')
+    },
 
+    {
+        name: 'TodoDetails',
+        path: '/TodoDetails',
+        component: () => import('@/pages/TodoDetails')
+    },
 ];
 
 export default routes
