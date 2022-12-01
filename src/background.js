@@ -16,6 +16,7 @@ async function createWindow() {
     titleBarStyle:"hidden",
     width: 1160,
     height: 870,
+    resizable:false,
     transparent:true,
     webPreferences: {
       
