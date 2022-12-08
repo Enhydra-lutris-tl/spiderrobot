@@ -15,19 +15,19 @@ module.exports = defineConfig({
           AMap:'AMap'
       }
     },
-    devServer:{
-      proxy:{
-          '/dingzhi':{
-            target:'http://d1.weather.com.cn/dingzhi/',
-            ws:true,
-            changeOrigin:true,
-            pathRewrite:{
-              '^/dingzhi':''  //重写路径
-            },
-              headers:{
-                Referer: "http://www.weather.com.cn/"
-              }
-          }
-      }
-    }
+    // devServer:{
+    //   proxy:{
+    //       '/dingzhi':{
+    //         target:'http://d1.weather.com.cn/dingzhi/',
+    //         ws:true,
+    //         changeOrigin:true,
+    //         pathRewrite:{
+    //           '^/dingzhi':''  //重写路径
+    //         },
+    //           headers:{
+    //             Referer: "http://www.weather.com.cn/"
+    //           }
+    //       }
+    //   }
+    // }
 })

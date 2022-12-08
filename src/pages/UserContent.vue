@@ -100,10 +100,10 @@
 
 <script>
 import {reactive, onMounted, ref} from "vue";
-import Axios from 'axios';
+// import Axios from 'axios';
 import AmapTemp from "@/components/AmapTemp";
 
-Axios.defaults.baseURL = '/dingzhi'
+// Axios.defaults.baseURL = '/dingzhi'
 export default {
   name: "UserContent",
   components: {

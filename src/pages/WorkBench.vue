@@ -108,39 +108,62 @@
         <div class="mqtt-get-message">
           {{ data.MQTTre ? data.MQTTre : '10086' }}
         </div>
+
+        <h3>点灯实验</h3>
+        <ul class="mqtt-send-buttonList">
+          <li class="mqtt-light-button" v-for="(i,index) in 8" :key="index" @click="mqttLightSend(i-1)">
+            {{i}}灯
+          </li>
+        </ul>
+        <div>{{ data.tipMessage }}</div>
+        <h3>灯状态</h3>
+        <div class="mqtt-lightGet-message" ref="lightStates">
+          <li class="mqtt-light-state" v-for="(i,index) in data.lightState.light.length" :key="index">
+          </li>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {reactive, ref, onBeforeUnmount} from "vue";
+import {reactive, ref, onBeforeUnmount, onMounted} from "vue";
 import * as mqtt from "mqtt/dist/mqtt.min.js";
+// import Axios from 'axios'
 
 export default {
   name: "WorkBench",
   setup() {
+    const lightStates = ref(null)
     const stateLight = ref(null);
     const data = reactive({
       stateShow: 0,
       MQTTre: '',
-      tipMessage: ''
+      tipMessage: '',
+      lightState:JSON.parse(localStorage.getItem('lightState'))
     })
 
     // MQTT相关配置
-    const connectUrl = `ws://iot-06z00i798av35r6.mqtt.iothub.aliyuncs.com:443`;
+    const connectUrl = `wss://bemfa.com:9504/wss`;
     const client = mqtt.connect(connectUrl, {
       clean: false,
       connectTimeout: 4000,
       reconnectPeriod: 100000,
-      clientId: 'hzowldY3YLc.WebLink|securemode=2,signmethod=hmacsha256,timestamp=1669858574757|',
+      clientId: 'c3f195180c1dca00193959c30cab93b5',
       username: 'WebLink&hzowldY3YLc',
       password: 'fe5596b5e47c02a9276c10981e3c03bf9f455e2ee7e69b5a60ce23b48e1fb1b9',
     })
 
+    if (!localStorage.getItem('lightState')){
+      localStorage.setItem('lightState',JSON.stringify({
+        light:[0,0,0,0,0,0,0,0]
+      }))
+    }
+
+    console.log(data.lightState)
     function mqttLink() {
       // 需要订阅的主题
-      const topic1 = '/sys/hzowldY3YLc/WebLink/thing/event/property/post_reply';
+      const topic1 = 'light002';
       const topic2 = '/hzowldY3YLc/WebLink/user/get';
       // 这里可以订阅多个主题
       client.subscribe([topic1, topic2], (err) => {
@@ -166,6 +189,7 @@ export default {
       data.tipMessage = '服务器连接成功'
       console.log('服务器连接成功');
       mqttLink()
+      ceshi()
     });
 
     //重连
@@ -184,8 +208,29 @@ export default {
     client.on('message', function (topic, message) {
       // 这里有可能拿到的数据格式是Uint8Array格式，所以可以直接用toString转成字符串
       // let data = JSON.parse(message.toString());
+      //消息发布格式：{"ST":1,"code":1,"L":1}
       data.tipMessage = '收到数据'
-      data.MQTTre = JSON.parse(message.toString())
+      // 如果数据为控灯，即：code=1
+      if (JSON.parse(message.toString()).code === 1){
+
+        var lightNumber = JSON.parse(message.toString()).L  //几号灯
+        var state = JSON.parse(message.toString()).ST       //灯状态
+
+        console.log(`灯${lightNumber+1},${state?'开':'关'}`)
+
+        data.lightState.light[lightNumber] = state
+        localStorage.setItem('lightState',JSON.stringify(data.lightState))
+        if (JSON.parse(message.toString()).ST === 1){
+          lightStates.value.children[lightNumber].classList.remove('redLight')
+          lightStates.value.children[lightNumber].classList.add('greenLight')
+          lightStates.value.children[lightNumber].style.background = '#0fe80f'
+        }else {
+          lightStates.value.children[lightNumber].classList.remove('greenLight')
+          lightStates.value.children[lightNumber].classList.add('redLight')
+          lightStates.value.children[lightNumber].style.background = '#ff4242'
+        }
+
+      }
       console.log("返回的数据：", JSON.parse(message.toString()))
     });
 
@@ -194,6 +239,8 @@ export default {
       data.tipMessage = '已断开连接'
       console.log("已断开连接")
     });
+
+    // 错误回调
     client.on("error", (error) => {
       console.log(error)
     });
@@ -220,16 +267,73 @@ export default {
           }
       )
     }
+    // 向MQTT服务器发送信息 改变灯状态
+    function mqttLightSend(i){
+      let stDate;
+      if (data.lightState.light[i] === 0){
+        stDate = 1
+      }else {
+        stDate = 0
+      }
+      client.publish(
+          '/hzowldY3YLc/WebLink/user/send',
+          JSON.stringify(
+              {"ST":stDate,"code":1,"L":i}
+          ),
+          function (err) {
+            if (!err) {
+              data.tipMessage = '发送成功'
+              console.log('发送成功')
+            } else {
+              data.tipMessage = err
+              console.log(err)
+            }
+          }
+      )
+    }
 
-
+function ceshi(){
+            client.publish(
+          'light002/set',
+          JSON.stringify(
+              {"ST":111,"code":1,"L":222}
+          ),
+          function (err) {
+            if (!err) {
+              data.tipMessage = '发送成功'
+              console.log('发送成功')
+            } else {
+              data.tipMessage = err
+              console.log(err)
+            }
+          }
+      )
+}
+    //根据本地存储改变灯状态
+    onMounted(()=>{
+      for (let i=0; i < lightStates.value.children.length ; i++){
+        if (data.lightState.light[i] === 0){
+          lightStates.value.children[i].classList.remove('greenLight')
+          lightStates.value.children[i].classList.add('redLight')
+          lightStates.value.children[i].style.background = '#ff4242'
+        }else {
+          lightStates.value.children[i].classList.remove('redLight')
+          lightStates.value.children[i].classList.add('greenLight')
+          lightStates.value.children[i].style.background = '#0fe80f'
+        }
+      }
+    })
+    // 组件关闭后结束链接
     onBeforeUnmount(() => {
-      // 组件关闭后结束链接
+
       client.end()
     })
     return {
+      lightStates,
       stateLight,
       data,
-      mqttSend
+      mqttSend,
+      mqttLightSend
     }
   }
 }
@@ -537,5 +641,38 @@ export default {
 
 .content-right h3{
   margin: 24px;
+}
+
+.mqtt-light-button{
+  margin: 24px 6px;
+  height: 40px;
+  line-height: 40px;
+  width: 80px;
+  background: #bcb9c7;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.mqtt-light-button:hover {
+  background: #55dec3;
+}
+
+.mqtt-lightGet-message{
+  display: flex;
+  list-style: none;
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  justify-content: space-between;
+}
+
+.mqtt-light-state{
+  margin: 6px 16px;
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+  background: #ff4242;
+  border-radius: 50%;
+  transition: .5s;
 }
 </style>

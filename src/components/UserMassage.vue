@@ -9,7 +9,7 @@
       <li><i class="iconfont icon-QQ"></i></li>
       <li><i class="iconfont icon-weixing"></i></li>
       <li><i class="iconfont icon-weibo-fill"></i></li>
-      <li><i class="iconfont icon-bilibili-fill"></i></li>
+      <li><a href="https://space.bilibili.com/396911528?spm_id_from=333.1007.0.0"><i class="iconfont icon-bilibili-fill"></i></a></li>
     </ul>
   </div>
 </template>
@@ -55,6 +55,9 @@ export default {
 </script>
 
 <style scoped>
+a{
+  text-decoration: none;
+}
 /*用户信息*/
 .user-message {
   display: flex;
