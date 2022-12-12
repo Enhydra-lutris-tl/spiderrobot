@@ -24,6 +24,11 @@ const routes = [
         path: '/TodoDetails',
         component: () => import('@/pages/TodoDetails')
     },
+    {
+        name: 'OSD',
+        path: '/OSD',
+        component: () => import('@/pages/OSD')
+    },
 ];
 
 export default routes

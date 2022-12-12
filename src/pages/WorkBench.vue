@@ -189,7 +189,6 @@ export default {
       data.tipMessage = '服务器连接成功'
       console.log('服务器连接成功');
       mqttLink()
-      ceshi()
     });
 
     //重连
@@ -206,6 +205,7 @@ export default {
 
     // 当客户端收到一个发布过来的消息时触发回调
     client.on('message', function (topic, message) {
+      console.log("返回的数据：", message.toString())
       // 这里有可能拿到的数据格式是Uint8Array格式，所以可以直接用toString转成字符串
       // let data = JSON.parse(message.toString());
       //消息发布格式：{"ST":1,"code":1,"L":1}
@@ -231,7 +231,7 @@ export default {
         }
 
       }
-      console.log("返回的数据：", JSON.parse(message.toString()))
+
     });
 
     // 连接断开后触发的回调
@@ -248,7 +248,7 @@ export default {
     // 向MQTT服务器发送信息
     function mqttSend(number) {
       client.publish(
-          '/hzowldY3YLc/WebLink/user/send',
+          'light002',
           JSON.stringify(
               {
                 "params": {
@@ -276,7 +276,7 @@ export default {
         stDate = 0
       }
       client.publish(
-          '/hzowldY3YLc/WebLink/user/send',
+          'light002',
           JSON.stringify(
               {"ST":stDate,"code":1,"L":i}
           ),
@@ -292,23 +292,6 @@ export default {
       )
     }
 
-function ceshi(){
-            client.publish(
-          'light002/set',
-          JSON.stringify(
-              {"ST":111,"code":1,"L":222}
-          ),
-          function (err) {
-            if (!err) {
-              data.tipMessage = '发送成功'
-              console.log('发送成功')
-            } else {
-              data.tipMessage = err
-              console.log(err)
-            }
-          }
-      )
-}
     //根据本地存储改变灯状态
     onMounted(()=>{
       for (let i=0; i < lightStates.value.children.length ; i++){

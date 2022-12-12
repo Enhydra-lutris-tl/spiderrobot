@@ -1,12 +1,13 @@
 <template>
 <div class="bigMap-box">
-  大地图
 </div>
 </template>
 
 <script>
+
 export default {
-  name: "BigMap"
+  name: "BigMap",
+
 }
 </script>
 

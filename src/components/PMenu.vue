@@ -1,7 +1,7 @@
 <template>
   <!--        单色菜单-->
   <ul class="menu-list">
-    <li><i class="iconfont icon-vuesax-bold-grid-6"></i><span>看板</span></li>
+    <li @click="pageShow('OSD')"><i class="iconfont icon-vuesax-bold-grid-6"></i><span>看板</span></li>
     <li><i class="iconfont icon-icon-toggle-radio_button_checked_24px"></i><span>实时操作</span></li>
     <li><i class="iconfont icon-resources"></i><span>资产管理</span></li>
     <li><i class="iconfont icon-icon-action-chartbar_24px"></i><span>数据</span></li>
@@ -9,8 +9,21 @@
 </template>
 
 <script>
+import {useRouter} from "vue-router/dist/vue-router";
+
 export default {
-  name: "PMenu"
+  name: "PMenu",
+    setup(){
+    const router = useRouter();
+    function pageShow(index){
+      if (index==='OSD'){
+        router.push('/OSD')
+      }
+    }
+    return{
+      pageShow,
+    }
+  }
 }
 </script>
 
