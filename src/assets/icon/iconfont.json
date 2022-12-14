@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5387433",
+      "name": "温湿度传感器",
+      "font_class": "wenshiduchuanganqi",
+      "unicode": "ead7",
+      "unicode_decimal": 60119
+    },
+    {
+      "icon_id": "5642865",
+      "name": "灯光",
+      "font_class": "dengguang",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "5982859",
+      "name": "烟雾报警器",
+      "font_class": "yanwubaojingqi",
+      "unicode": "ec78",
+      "unicode_decimal": 60536
+    },
+    {
+      "icon_id": "7335567",
+      "name": "温度",
+      "font_class": "wendu",
+      "unicode": "eb37",
+      "unicode_decimal": 60215
+    },
+    {
       "icon_id": "13182245",
       "name": "切换",
       "font_class": "qiehuan-",
