@@ -32,17 +32,29 @@
         </div>
       </div>
     </div>
-    <div>图片上传</div>
+    <div class="QRcode-box">
+
+      <div class="QRcode-img-box">
+        <img :src="Data.QrcodeSrc" alt="请输入内容后提交">
+      </div>
+      <div class="QRcode-input-box">
+        <input type="text" v-model="Data.QrcodeData">
+        <div class="QRcode-button" @click="getQrcode">提交</div>
+      </div>
+    </div>
+
     <div>模块参数设置</div>
     <div>功能开关</div>
   </div>
 </template>
 
 <script>
-import {reactive, ref} from "vue";
+import {reactive, ref,onUnmounted} from "vue";
 
 export default {
   name: "OSD",
+  components: {},
+
   setup(){
     const an = ref(null)
     const i = ref(0)
@@ -73,21 +85,32 @@ export default {
           icon:'iconfont icon-wenshiduchuanganqi',
                     number:10
         },
-      ]
+      ],
+      size:'200x200',
+      QrcodeData:'',
+      QrcodeSrc:''
     })
-    setInterval(
-        function (){
 
+    function getQrcode(){
+      const url = 'https://api.qrserver.com/v1/create-qr-code/?size='
+      Data.QrcodeSrc = url + Data.size + '&data=' + Data.QrcodeData
+    }
+    const T1 = setInterval(
+        function (){
           an.value.style.transform = `translateX(${-240*i.value}px)`
           i.value++
-          if (i.value===5){
+          if (i.value===6){
             i.value = 0
           }
         },2000
     )
+    onUnmounted(()=>{
+      clearInterval(T1)
+    })
     return{
       an,
-      Data
+      Data,
+      getQrcode
     }
   }
 
@@ -137,9 +160,9 @@ export default {
 }
 .now-time{
   position: absolute;
-  top: calc(50% - 60px);
+  top: calc(50% - 50px);
   font-size: 60px;
-  font-weight: bold;
+  font-weight: bolder;
   width: 240px;
 }
 .state-lists-box{
@@ -152,6 +175,8 @@ export default {
 .state-box{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0 8px;
 }
 .state-box i{
@@ -159,8 +184,8 @@ export default {
   color: #bcb9c7;
 }
 .state-box div{
-  height: 20px;
-  width: 20px;
+  height: 12px;
+  width: 12px;
   border-radius: 50%;
   background: #6adcc6;
   margin-top: 4px;
@@ -205,5 +230,42 @@ export default {
 .iconfont{
   font-size: 24px;
 }
-
+.QRcode-box{
+  background: white;
+  height: 256px;
+  width: 256px;
+  border-radius: 8px;
+  margin: 24px 0 24px 24px;
+  padding-top: 8px;
+  box-shadow: 0 0 10px 10px rgba(188, 185, 199, 0.1)
+}
+.QRcode-input-box{
+  width: 200px;
+  height: 30px;
+  margin-left: 28px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.QRcode-box input{
+  height: 30px;
+  width: 160px;
+  border: none;
+  background: #bcb9c7;
+}
+.QRcode-button{
+  height: 30px;
+  width: 32px;
+  background: #bcb9c7;
+  font-size: 11px;
+  line-height: 30px;
+}
+.QRcode-img-box{
+  height: 200px;
+  width: 200px;
+  margin-left: 28px;
+  margin-top: 8px;
+  line-height: 200px;
+  font-weight: bold;
+}
 </style>
