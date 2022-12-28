@@ -3,7 +3,7 @@
   <ul class="menu-list">
     <li @click="pageShow('OSD')"><i class="iconfont icon-vuesax-bold-grid-6"></i><span>看板</span></li>
     <li><i class="iconfont icon-icon-toggle-radio_button_checked_24px"></i><span>实时操作</span></li>
-    <li><i class="iconfont icon-resources"></i><span>资产管理</span></li>
+    <li @click="pageShow('AssetsManagement')"><i class="iconfont icon-resources"></i><span>资产管理</span></li>
     <li><i class="iconfont icon-icon-action-chartbar_24px"></i><span>数据</span></li>
   </ul>
 </template>
@@ -18,6 +18,8 @@ export default {
     function pageShow(index){
       if (index==='OSD'){
         router.push('/OSD')
+      }if (index === 'AssetsManagement'){
+        router.push('/AssetsManagement')
       }
     }
     return{

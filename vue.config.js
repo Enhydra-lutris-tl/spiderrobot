@@ -1,4 +1,7 @@
-const { defineConfig } = require('@vue/cli-service')
+const {defineConfig} = require('@vue/cli-service')
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const {ElementPlusResolver} = require('unplugin-vue-components/resolvers')
 module.exports = defineConfig({
     lintOnSave: undefined,
     publicPath: './',
@@ -8,12 +11,21 @@ module.exports = defineConfig({
     productionSourceMap: undefined,
     parallel: undefined,
     css: undefined,
-
     transpileDependencies: true,
-    configureWebpack:{
-      externals:{
-          AMap:'AMap'
-      }
+    configureWebpack: {
+        // elementplus组件按需自动引入配置
+        plugins: [
+            AutoImport({
+                resolvers: [ElementPlusResolver()],
+            }),
+            Components({
+                resolvers: [ElementPlusResolver()],
+            }),
+        ],
+        //高德地图相关
+        externals: {
+            AMap: 'AMap'
+        }
     },
     // devServer:{
     //   proxy:{
@@ -31,3 +43,6 @@ module.exports = defineConfig({
     //   }
     // }
 })
+// webpack.config.js
+
+

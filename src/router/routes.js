@@ -29,6 +29,11 @@ const routes = [
         path: '/OSD',
         component: () => import('@/pages/OSD')
     },
+    {
+        name: 'AssetsManagement',
+        path: '/AssetsManagement',
+        component:()=> import('@/pages/AssetsManagement')
+    }
 ];
 
 export default routes
