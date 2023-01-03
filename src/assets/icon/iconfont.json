@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1167185",
+      "name": "刷新",
+      "font_class": "shuaxin",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
       "icon_id": "5387433",
       "name": "温湿度传感器",
       "font_class": "wenshiduchuanganqi",

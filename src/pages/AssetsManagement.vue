@@ -224,7 +224,7 @@ export default {
   width: calc(100% - 48px);
   background: white;
   margin: 24px;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: 0 0 10px 10px rgba(188, 185, 199, 0.1);
   overflow: hidden;
 }

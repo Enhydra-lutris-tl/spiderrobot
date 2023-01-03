@@ -33,6 +33,11 @@ const routes = [
         name: 'AssetsManagement',
         path: '/AssetsManagement',
         component:()=> import('@/pages/AssetsManagement')
+    },
+    {
+        name: 'CloudEquipment',
+        path: '/CloudEquipment',
+        component:()=> import('@/pages/CloudEquipment')
     }
 ];
 
