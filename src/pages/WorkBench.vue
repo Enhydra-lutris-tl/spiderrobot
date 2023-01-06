@@ -164,9 +164,8 @@ export default {
     function mqttLink() {
       // 需要订阅的主题
       const topic1 = 'light002';
-      const topic2 = '/hzowldY3YLc/WebLink/user/get';
       // 这里可以订阅多个主题
-      client.subscribe([topic1, topic2], (err) => {
+      client.subscribe([topic1], (err) => {
         if (data.stateShow === 1) {
           data.tipMessage = '请勿重复订阅'
           console.log('请勿重复订阅')

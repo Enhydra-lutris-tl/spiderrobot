@@ -6,17 +6,27 @@
             class="uid-input"
             v-model="userData.uid"
             placeholder="绑定巴法云ID"
-            :show-password="!userData.showPassword"
-            :disabled="!userData.showPassword"
+            :show-password="userData.showPassword"
+            :disabled="userData.showPassword"
         />
-        <el-button
-            class="uid-button"
-            size="small"
-            :type="userData.showPassword?'success':'primary'"
-            @click="setUid"
+        <el-popover
+            placement="top-start"
+            title="提示"
+            :width="200"
+            trigger="hover"
+            content="修改用户巴法云ID，以获取此ID的MQTT设备"
         >
-          {{userData.showPassword?'绑定':'修改'}}
-        </el-button>
+          <template #reference>
+            <el-button
+                class="uid-button"
+                size="small"
+                :type="userData.showPassword?'primary':'success'"
+                @click="setUid"
+            >
+              {{ userData.showPassword ? '修改' : '绑定' }}
+            </el-button>
+          </template>
+        </el-popover>
         <div class="equipment-header-title">设备列表</div>
         <el-button
             size="small"
@@ -31,52 +41,53 @@
         </div>
       </div>
       <!--      设备信息展示-->
-      <el-descriptions
-          class="dsp-title-style"
-          v-for="(i,index) in userData.MQTTData"
-          :key="index"
-          border
-      >
-        <template #title>
-          <div class="dsp-title-box">{{ i.name }}</div>
-        </template>
-        <template #extra>
-          <div class="list-extra-box">
-            <el-input
-                style="height: 24px;width: 289px"
-                placeholder="输入要发送的消息"
-                v-model="userData.msgList[index]"
-            />
-            <el-button-group>
-              <el-button
-                  type="primary"
-                  size="small"
-                  @click="MQTTPush(index,i.topic,1,userData.msgList[index])"
-              >
-                发送
-              </el-button>
-              <el-button
-                  type="danger"
-                  size="small"
-                  @click="deleteTopic(i.topic,1)"
-              >
-                删除
-              </el-button>
-            </el-button-group>
-          </div>
+      <div class="dsp-body-box" style="width: 100%" v-loading="userData.loading">
+        <el-descriptions
+            class="dsp-title-style"
+            v-for="(i,index) in userData.MQTTData"
+            :key="index"
+            border
+        >
+          <template #title>
+            <div class="dsp-title-box">{{ i.name }}</div>
+          </template>
+          <template #extra>
+            <div class="list-extra-box">
+              <el-input
+                  style="height: 24px;width: 289px"
+                  placeholder="输入要发送的消息"
+                  v-model="userData.msgList[index]"
+              />
+              <el-button-group>
+                <el-button
+                    type="primary"
+                    size="small"
+                    @click="MQTTPush(index,i.topic,1,userData.msgList[index])"
+                >
+                  发送
+                </el-button>
+                <el-button
+                    type="danger"
+                    size="small"
+                    @click="deleteTopic(i.topic,1)"
+                >
+                  删除
+                </el-button>
+              </el-button-group>
+            </div>
 
-        </template>
-        <el-descriptions-item label="主题值">{{ i.topic }}</el-descriptions-item>
-        <el-descriptions-item label="设备类型">{{ i.tid }}</el-descriptions-item>
-        <el-descriptions-item label="是否在线">
-          <el-tag size="small" :type="i.online?'success':'danger'">
-            {{ i.online ? '在线' : '离线' }}
-          </el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="上次消息">{{ i.msg }}</el-descriptions-item>
-        <el-descriptions-item label="消息时间">{{ i.time }}</el-descriptions-item>
-      </el-descriptions>
-      <el-button type="success" @click="test">test</el-button>
+          </template>
+          <el-descriptions-item label="主题值">{{ i.topic }}</el-descriptions-item>
+          <el-descriptions-item label="设备类型">{{ i.tid }}</el-descriptions-item>
+          <el-descriptions-item label="是否在线">
+            <el-tag size="small" :type="i.online?'success':'danger'">
+              {{ i.online ? '在线' : '离线' }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="上次消息">{{ i.msg }}</el-descriptions-item>
+          <el-descriptions-item label="消息时间">{{ i.time }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
       <!--      新增设备表单-->
       <el-drawer
           v-model="userData.fromShowNumber"
@@ -132,14 +143,15 @@
 
 <script>
 import Axios from "axios";
-import {reactive,watch} from "vue";
+import {reactive, watch} from "vue";
 import {ElMessage, ElMessageBox} from 'element-plus'
 
 export default {
   name: "CloudEquipment",
   setup() {
     const userData = reactive({
-      showPassword:false,
+      loading: true,
+      showPassword: true,
       fromShowNumber: false,
       uid: 'c3f195180c1dca00193959c30cab93b5',
       MQTTData: [],
@@ -162,15 +174,19 @@ export default {
       ],
     })
     //监视uid改变
-    watch(()=>userData.uid, (newValue) =>{
-      userData.MQTTSetup.uid = newValue
-    }
+    watch(() => userData.uid, (newValue) => {
+          userData.MQTTSetup.uid = newValue
+        }
+    );
 
-);
     //修改用户uid
-    function setUid(){
+    function setUid() {
+      if (!userData.showPassword){
+        getMQTTData()
+      }
       userData.showPassword = !userData.showPassword
     }
+
     // 获取设备信息方法
     function getMQTTData() {
       Axios.get('https://apis.bemfa.com/va/alltopic', {
@@ -179,12 +195,16 @@ export default {
           type: 1
         }
       }).then(function (message) {
+        userData.loading = true
         userData.MQTTData = message.data.data
         userData.msgList = Array.apply(null, Array(userData.MQTTData.length))
+        setTimeout(() => {
+          userData.loading = false
+        }, 1000)
       })
     }
 
-    // 向发送消息方法
+    // 向设备发送消息方法
     function MQTTPush(index, topic, type, msg) {
       const project = {
         uid: userData.uid,
@@ -249,7 +269,7 @@ export default {
       Axios.post('https://pro.bemfa.com/v1/addtopic',
           userData.MQTTSetup).then(
           (msg) => {
-            if (msg.data.message === 'OK') {
+            if (msg.data.code === 0) {
               ElMessage({
                 message: '创建成功！',
                 type: 'success'
@@ -258,6 +278,11 @@ export default {
                     getMQTTData()
                   }, 1000
               )
+            }else if(msg.data.code === 40006){
+              ElMessage({
+                message: '创建失败！设备主题已存在',
+                type: 'error'
+              })
             }
             userData.MQTTSetup = {
               uid: userData.uid,
@@ -295,6 +320,7 @@ export default {
               message: `主题${topic}已删除，此操作无法撤回!!!`,
             })
           }
+          pushWmsg(topic,`请注意,主题${topic}被删除！！！`)
           setTimeout(() => {
             getMQTTData()
           }, 1000)
@@ -308,14 +334,16 @@ export default {
     }
 
     // 向微信发送信息
-    function test() {
+    function pushWmsg(device,msg) {
       Axios.get('https://api.bemfa.com/api/wechat/v1/weget.php', {
         params: {
           type: 2,
           uid: userData.uid,
-          device: 'test',
-          msg: '测试一下！！！！！！！！！！！'
+          device,
+          msg
         }
+      }).then(()=>{
+        console.log('发送成功')
       })
     }
 
@@ -329,7 +357,6 @@ export default {
       handleClose,
       submitForm,
       deleteTopic,
-      test
     }
   }
 }
@@ -357,8 +384,9 @@ export default {
   position: relative;
   height: 48px;
 }
-.uid-input{
-    position: absolute;
+
+.uid-input {
+  position: absolute;
   font-size: 10px;
   font-weight: bold;
   height: 24px;
@@ -367,11 +395,13 @@ export default {
   top: calc(50% - 12px);
   left: 12px;
 }
-.uid-button{
+
+.uid-button {
   position: absolute;
   top: calc(50% - 12px);
   left: 220px;
 }
+
 .equipment-header-title {
   position: absolute;
   font-size: 24px;
