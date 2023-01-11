@@ -27,6 +27,13 @@ module.exports = defineConfig({
             AMap: 'AMap'
         }
     },
+    // 在vue.config.js中设置 customFileProtocol字段：
+pluginOptions: {
+	electronBuilder: {
+		customFileProtocol: "./"
+	}
+}
+
     // devServer:{
     //   proxy:{
     //       '/dingzhi':{
