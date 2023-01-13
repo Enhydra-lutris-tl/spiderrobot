@@ -18,6 +18,7 @@ async function createWindow() {
     height: 870,
     resizable:false,
     transparent:true,
+    icon: appIcon,
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -26,7 +27,6 @@ async function createWindow() {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -67,9 +67,10 @@ app.on('ready', async () => {
   }
   createWindow()
 })
-
+let appIcon
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
+  appIcon = './resources/icons/icon.icns'  // 自定义应用图标位置 换成你自己的路径
   if (process.platform === 'win32') {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {
@@ -81,4 +82,6 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}else {
+      appIcon = process.resourcesPath + '/icons/orico.png'
 }

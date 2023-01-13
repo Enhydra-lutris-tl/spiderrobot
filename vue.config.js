@@ -28,11 +28,35 @@ module.exports = defineConfig({
         }
     },
     // 在vue.config.js中设置 customFileProtocol字段：
-pluginOptions: {
-	electronBuilder: {
-		customFileProtocol: "./"
-	}
-}
+    pluginOptions: {
+        electronBuilder: {
+            customFileProtocol: "./",
+            builderOptions: {  // 重点是这个
+                productName: `诶嘿`,//应用名
+                appId: 'com.orico',
+                asar: true,
+                mac: {
+                    icon: './resources/icons/icon.icns' //自定义应用图标位置
+                },
+                nsis: {
+                    oneClick: false,
+                    allowToChangeInstallationDirectory: true,
+                    perMachine: true,
+                    allowElevation: true,
+                    runAfterFinish: true,
+                    createDesktopShortcut: true,
+                    createStartMenuShortcut: true,
+                    deleteAppDataOnUninstall: true,
+                },
+                extraResources: {
+                    // 拷贝静态文件到指定位置,否则打包之后出现找不到资源的问题.将整个resources目录拷贝到 发布的根目录下
+                    from: './resources/',
+                    to: './'
+                }
+            }
+
+        }
+    }
 
     // devServer:{
     //   proxy:{
